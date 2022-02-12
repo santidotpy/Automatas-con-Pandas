@@ -84,7 +84,7 @@ def get_mac_Cliente():
 
 
 """
-PARTE ESPECIFICA DE NUESTRO GRUPO.
+PARTE ESPECIFICA.
 Enunciado:
 Seguimiento del tráfico de AP (Access point), para determinar cuál es el AC, que más tráfico
 (Input Octects + Output Octects) ha tenido en un período de tiempo (rango de fechas). 
