@@ -1,10 +1,3 @@
-Integrantes del grupo: 
-
-    Juan Ignacio Bernard
-    Santiago Graffigna
-    Juan Martínez
-    Martín Mosqueira
-
 El proyecto deberá:
 
 - Utilizar expresiones regulares y el modulo re de Python.
