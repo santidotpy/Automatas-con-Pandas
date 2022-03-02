@@ -1,8 +1,9 @@
 import pandas as pd
 import random
 import math
-#import re
+import re
 import os
+
 
 
 
@@ -12,7 +13,9 @@ def get_users():
     df = pd.read_excel(excel_file_path) # Lo leo
 
     # Me fijo que cumpla la condicion de la re, lo hago lista y luego elimino los elementos repetidos
-    lista_usuarios = list(dict.fromkeys(df['Usuario'].str.replace(r'[^A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$', "").tolist()))
+    
+    
+    lista_usuarios = list(dict.fromkeys(df['Usuario'].str.replace(r'[^a-z-A-Z0-9\.-_]', "")))
 
     cantidad_users = len(lista_usuarios)
 
@@ -22,6 +25,7 @@ def get_users():
             f.write(f'{user}\n')
             
     os.system('cls')
+    print('=' * 222)
     print(f'Hay {cantidad_users} usuarios:\n')
     print(lista_usuarios)
 
@@ -34,8 +38,11 @@ def get_MAC_AP():
     excel_file_path = 'texto.xlsx'
     # Lo leo y lo cargo en un DataFrame
     df = pd.read_excel(excel_file_path)
+
     # En ese df con re busco las que cumplen cierta condicion y las remplazo con un string vacio, despues se hace una lista y elimino duplicados
-    lista_MAC_AP = list(dict.fromkeys(df['MAC AP'].str.replace(r'(^[0-9A-F]{1,2})' + '\:([0-9A-F]{1,2})'*5 + '$', "").tolist()))
+   
+    # ----
+    lista_MAC_AP = list(dict.fromkeys(df['MAC AP'].str.replace(r'(^[0-9A-F]{2}[:-]){5}([0-9A-F]{2}):UM', "")))
 
     # Si el elemento de la lista es un nan, lo saco de lista
     for element in lista_MAC_AP:
@@ -62,7 +69,9 @@ def get_mac_Cliente():
 
     excel_file_path = 'texto.xlsx'
     df = pd.read_excel(excel_file_path)
-    lista_MAC_Cliente = list(dict.fromkeys(df['MAC Cliente'].str.replace(r'^[a-fA-F0-9:]{17}|[a-fA-F0-9]{12}$', "").tolist()))
+
+    # ----
+    lista_MAC_Cliente = list(dict.fromkeys(df['MAC Cliente'].str.replace(r'(^[0-9A-F]{2}[:-]){5}([0-9A-F]{2})', "")))
 
     # Si el elemento de la lista es un nan, lo saco de lista
     for element in lista_MAC_Cliente:
@@ -84,7 +93,7 @@ def get_mac_Cliente():
 
 
 """
-PARTE ESPECIFICA.
+PARTE ESPECIFICA DE NUESTRO GRUPO.
 Enunciado:
 Seguimiento del tráfico de AP (Access point), para determinar cuál es el AC, que más tráfico
 (Input Octects + Output Octects) ha tenido en un período de tiempo (rango de fechas). 
@@ -117,21 +126,12 @@ def get_trafico():
     print(f'La direccion MAC AP con el mayor trafico ({val}) entre {fecha_1} y {fecha_2} es la: {mac_con_mayor_trafico.iloc[0]}\n')
 
 
-def momento(fecha_in, fecha_fin, hora_in, hora_fin):
-    f_inicio = fecha_in.replace(' ', '/')
-    h_inicio = hora_in.replace(' ', ':')
-    f_fin = fecha_fin.replace(' ', '/')
-    h_fin = hora_fin.replace(' ', ':')
-
-    f_inicio = f_inicio + ' ' + h_inicio
-    f_fin = f_fin + ' ' + h_fin
-
-    print(f_inicio, f_fin)
-
 if __name__ == '__main__':
     seleccion = -1
     while seleccion < 5 :
+        print('=' * 216)
         print('\n1 - Usuarios\n2 - MAC AP\n3 - MAC Cliente\n4 - Trafico\n5 - Salir\n')
+        print('=' * 216)
         seleccion = int(input('Ingrese que funcion desea usar: '))
         if seleccion == 1:
             get_users()
@@ -144,4 +144,6 @@ if __name__ == '__main__':
         else:
             print('Terminado')
             seleccion = 5
+    
+
     
